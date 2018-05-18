@@ -8,7 +8,7 @@ import pandas as pd
 x_data = np.linspace(0.0, 10.0, 1000000)
 y_data = (0.5*x_data) + 5
 x_df = pd.DataFrame(data=x_data, columns=['X data'])
-y_df = pd.DataFrame(data=x_data, columns=['Y'])
+y_df = pd.DataFrame(data=y_data, columns=['Y'])
 my_data = pd.concat([x_df, y_df], axis=1)
 
 feat_cols = [tf.feature_column.numeric_column('x', shape=[1])]
@@ -39,6 +39,6 @@ for predict in estimator.predict(input_fn=pred_input_func):
     predictions.append(predict)
     
 
-sample_data = my_data.sample(n=100)
+sample_data = my_data.sample(n=10000)
 sample_data.plot(kind='scatter', x='X data', y='Y')
 plt.plot(brand_new_data, predictions, 'r*')
