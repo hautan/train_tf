@@ -6,6 +6,7 @@ from __future__ import print_function
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 import numpy as np
+import pandas as pd
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -112,16 +113,15 @@ eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
 #print(type((train_labels)))
 #
 ##x = tf.argmax(input=train_labels, axis=1)
-sess = tf.Session()
-sess.run(tf.global_variables_initializer())
-#print(sess.run(x))
-train_prediction=tf.argmax(train_labels,1)
-eval_prediction=tf.argmax(eval_labels,1)
+with tf.Session() as sess :
+    #print(sess.run(x))
+    train_prediction=tf.argmax(train_labels,1)
+    eval_prediction=tf.argmax(eval_labels,1)
 
+    train_classes = np.reshape(np.array(sess.run([train_prediction])),[55000,1])
+    eval_classes = np.reshape(np.array(sess.run([eval_prediction])),[10000,1])
+    #print(best)
 
-train_classes = np.reshape(np.array(sess.run([train_prediction])),[55000,1])
-eval_classes = np.reshape(np.array(sess.run([eval_prediction])),[10000,1])
-#print(best)
 
 
 # Create the Estimator
@@ -136,7 +136,7 @@ mode=tf.estimator.ModeKeys.TRAIN
 
 # Train the model
 train_input_fn = tf.estimator.inputs.numpy_input_fn(x={"x": train_data}, y=train_classes, batch_size=100, num_epochs=None, shuffle=True)
-mnist_classifier.train(input_fn=train_input_fn, steps=900, hooks=[logging_hook])
+mnist_classifier.train(input_fn=train_input_fn, steps=5, hooks=[logging_hook])
 
 mode=tf.estimator.ModeKeys.EVAL
 # Evaluate the model and print results
@@ -144,7 +144,9 @@ eval_input_fn = tf.estimator.inputs.numpy_input_fn(x={"x": eval_data}, y=eval_cl
 eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
 print(eval_results)
 
-pred_input_func = tf.estimator.inputs.numpy_input_fn(x={"x": eval_prediction}, shuffle=False)
+
+mode=tf.estimator.ModeKeys.PREDICT
+pred_input_func = tf.estimator.inputs.numpy_input_fn(x={"x": eval_data}, shuffle=False)
 predictions = []
 for predict in mnist_classifier.predict(input_fn=pred_input_func):
     predictions.append(predict)
