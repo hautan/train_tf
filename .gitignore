@@ -99,3 +99,5 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+/cnn/CIFAR-10/cifar-10-python.tar.gz
