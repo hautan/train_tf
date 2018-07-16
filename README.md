@@ -14,4 +14,16 @@ cnn
          un/pickle - object from/to stream(binary files)
 		 
 	The final model is saved in path: /tmp
+	
+	the code is split between - distinct class for data manipulation and distinct class for model/estimator buil, train, evaluate and predict
+	
+estimatorAPI
+    regression
+     tensExercise
+         pandas df manipulation
+         DNNRegressor
+         sklearn.model_selection  train_test_split,  MinMaxScaler
      
+	 
+	 
+	 https://karpathy.github.io/2015/05/21/rnn-effectiveness/

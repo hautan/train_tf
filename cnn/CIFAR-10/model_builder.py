@@ -67,7 +67,7 @@ class CNNModel():
       # Convolutional Layer #1
       # Computes 32 features using a 5x5 filter with ReLU activation.
       # Padding is added to preserve width and height.
-      # Input Tensor Shape: [batch_size, 32, 32, 1]
+      # Input Tensor Shape: [batch_size, 32, 32, 3]
       # Output Tensor Shape: [batch_size, 32, 32, 32]
       conv1 = tf.layers.conv2d(
           inputs=input_layer,
