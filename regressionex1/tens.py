@@ -26,6 +26,7 @@ init = tf.global_variables_initializer()
 saver = tf.train.Saver()
 
 with tf.Session() as sess:
+  writer = tf.summary.FileWriter("./output", sess.graph)
   sess.run(init)
   batches = 10000
   for i in range(batches):
@@ -35,6 +36,7 @@ with tf.Session() as sess:
     sess.run(train, feed_dict=feed)
   model_w, model_b = sess.run([w,b])
   saver.save(sess,'models/my_first_model.ckpt')
+  writer.close()
   
   
 x_test = np.linspace(-1,11,10)
